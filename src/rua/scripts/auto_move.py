@@ -13,7 +13,7 @@ if __name__=="__main__":
     rospy.Subscriber("/turtle1/pose",Pose,pose_callback)
     rate = rospy.Rate(10)
     time_start = rospy.Time.now()
-    while rospy.Time.now() - time_start < rospy.Duration(5):
+    while rospy.Time.now() - time_start < rospy.Duration(10000):
         
         vel = Twist()
         

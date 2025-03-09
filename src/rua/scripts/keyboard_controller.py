@@ -22,18 +22,14 @@ def control(stdscr):
         elif key == ord("a"):
            vel.linear.x = 0.0
            vel.angular.z = 2.0
-           
         elif key == ord("d"):
             vel.linear.x = 0.0
             vel.angular.z = -2.0
-            
         elif key == ord("q"):
             break
         else:
             vel.linear.x = 0.0
             vel.angular.z = 0.0
-        
-        
         pub.publish(vel)
         rate.sleep()
 if __name__ == "__main__":
