@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.0.2)
-project(rua)
+project(th3)
 
 ## Compile as C++11, supported in ROS Kinetic and newer
 # add_compile_options(-std=c++11)
@@ -11,15 +11,11 @@ find_package(catkin REQUIRED COMPONENTS
   roscpp
   rospy
   std_msgs
-  geometry_msgs
+  message_generation
   turtlesim
+  geometry_msgs
 )
-catkin_package()
 
-include_directories(${catkin_INCLUDE_DIRS})
-
-add_executable(test_node scripts/test.cpp)
-target_link_libraries(test_node ${catkin_LIBRARIES})
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
 
@@ -54,18 +50,23 @@ target_link_libraries(test_node ${catkin_LIBRARIES})
 ##   * add every package in MSG_DEP_SET to generate_messages(DEPENDENCIES ...)
 
 ## Generate messages in the 'msg' folder
-# add_message_files(
-#   FILES
-#   Message1.msg
-#   Message2.msg
-# )
+add_service_files(
+  FILES
+  addComplex.srv
+)
 
 ## Generate services in the 'srv' folder
-# add_service_files(
-#   FILES
+add_service_files(
+  FILES
 #   Service1.srv
 #   Service2.srv
-# )
+  addComplex.srv
+  goToGoal.srv
+)
+add_message_files(
+  FILES
+  complex.msg
+)
 
 ## Generate actions in the 'action' folder
 # add_action_files(
@@ -75,10 +76,12 @@ target_link_libraries(test_node ${catkin_LIBRARIES})
 # )
 
 ## Generate added messages and services with any dependencies listed here
-# generate_messages(
-#   DEPENDENCIES
-#   std_msgs
-# )
+generate_messages(
+  DEPENDENCIES
+  std_msgs
+  turtlesim
+  geometry_msgs
+)
 
 ################################################
 ## Declare ROS dynamic reconfigure parameters ##
@@ -111,8 +114,8 @@ target_link_libraries(test_node ${catkin_LIBRARIES})
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
 #  INCLUDE_DIRS include
-#  LIBRARIES rua
-#  CATKIN_DEPENDS roscpp rospy std_msgs
+#  LIBRARIES th3
+  CATKIN_DEPENDS message_runtime roscpp rospy std_msgs
 #  DEPENDS system_lib
 )
 
@@ -129,7 +132,7 @@ include_directories(
 
 ## Declare a C++ library
 # add_library(${PROJECT_NAME}
-#   src/${PROJECT_NAME}/rua.cpp
+#   src/${PROJECT_NAME}/th3.cpp
 # )
 
 ## Add cmake target dependencies of the library
@@ -140,7 +143,7 @@ include_directories(
 ## Declare a C++ executable
 ## With catkin_make all packages are built within a single CMake context
 ## The recommended prefix ensures that target names across packages don't collide
-# add_executable(${PROJECT_NAME}_node src/rua_node.cpp)
+# add_executable(${PROJECT_NAME}_node src/th3_node.cpp)
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
@@ -166,9 +169,8 @@ include_directories(
 
 ## Mark executable scripts (Python etc.) for installation
 ## in contrast to setup.py, you can choose the destination
- catkin_install_python(PROGRAMS
-   scripts/random_move.py
-   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+catkin_install_python(PROGRAMS scripts/add_complex_server.py
+  DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
  )
 
 ## Mark executables for installation
@@ -204,7 +206,7 @@ include_directories(
 #############
 
 ## Add gtest based cpp test target and link libraries
-# catkin_add_gtest(${PROJECT_NAME}-test test/test_rua.cpp)
+# catkin_add_gtest(${PROJECT_NAME}-test test/test_th3.cpp)
 # if(TARGET ${PROJECT_NAME}-test)
 #   target_link_libraries(${PROJECT_NAME}-test ${PROJECT_NAME})
 # endif()

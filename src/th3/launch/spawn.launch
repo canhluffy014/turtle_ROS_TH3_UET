@@ -1,0 +1,5 @@
+<launch>       
+    <node pkg="turtlesim" type="turtlesim_node" name="sim" output="screen"/>
+    <node pkg="th3" type="spawn_auto_move.py" name="spawn_auto_move" output="screen"/>
+</launch>
+
